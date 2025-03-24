@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家計簿一覧</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            background-color: #f9f9f9;
+        }
+        h2, h3 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav-button {
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>家計簿一覧</h2>
+    
+    <h3>月ごとのカテゴリ別出費</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>月</th>
+                <th>カテゴリ</th>
+                <th>合計金額</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="summary : ${monthlySummary}">
+                <td th:text="${summary['month']}"></td>
+                <td>
+                    <span th:if="${summary['category'] == 'food'}">食費</span>
+                    <span th:if="${summary['category'] == 'transport'}">交通費</span>
+                    <span th:if="${summary['category'] == 'entertainment'}">娯楽費</span>
+                    <span th:if="${summary['category'] == 'utilities'}">水道光熱費</span>
+                    <span th:if="${summary['category'] == 'others'}">その他</span>
+                </td>
+                <td th:text="${summary['total_amount']}"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h3>月ごとの合計出費</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>月</th>
+                <th>合計金額</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="total : ${totalPerMonth}">
+                <td th:text="${total['month']}"></td>
+                <td th:text="${total['total_amount']}"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="button-container">
+        <a th:href="@{/}" class="nav-button">ホームへ戻る</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.BudgetMapper">
+
+	<insert id="insertBudget">
+		INSERT INTO household_budget (month, category, amount, memo)
+		VALUES (#{month}, #{category}, #{amount}, #{memo})
+	</insert>
+
+	<select id="getAllBudgets"
+		resultType="com.example.demo.model.Budget">
+		SELECT id, month, category, amount, memo FROM household_budget ORDER BY
+		month ASC, id DESC;
+	</select>
+
+	<select id="getMonthlySummary" resultType="map">
+		SELECT month, category, SUM(amount) AS total_amount
+		FROM household_budget
+		GROUP BY month, category
+		ORDER BY month ASC;
+	</select>
+
+	<select id="getTotalPerMonth" resultType="map">
+		SELECT month, SUM(amount) AS total_amount
+		FROM household_budget
+		GROUP BY month
+		ORDER BY month ASC;
+	</select>
+
+</mapper>
